@@ -1,0 +1,23 @@
+
+credentials:
+  users:
+    - username: "vitor"
+      name: "Vitor Mendes"
+      email: "vitor@gmail.com"
+      password: "hashed_password_parceiro"  # Use um hash seguro
+      role: "parceiro"
+    - username: "cliente-teste"
+      name: "Nome do Cliente"
+      email: "cliente@gmail.com"
+      password: "hashed_password_cliente"  # Use um hash seguro
+      role: "cliente"
+    - username: "duda"
+      name: "William Eustaquio"
+      email: "william@gmail.com"
+      password: "hashed_password_admin"  # Use um hash seguro
+      role: "admin"
+
+cookie:
+  name: "my_cookie_name"
+  key: "my_signature_key"
+  expiry_days: 30
