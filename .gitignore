@@ -5,4 +5,5 @@ Library
 Scripts
 share
 .streamlit
-
+*.idea
+.env
