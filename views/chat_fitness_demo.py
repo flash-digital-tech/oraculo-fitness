@@ -27,6 +27,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from autentic.authentications import setup_authentication
+from decouple import config
+
 
 # --- PAGE SETUP ---
 authenticator = setup_authentication()
@@ -48,10 +50,9 @@ if 'authentication_status' in st.session_state:
 app = FastAPI()
 
 
-
 # --- Verifica se o token da API está nos segredos ---
-if 'REPLICATE_API_TOKEN' in st.secrets:
-    replicate_api = st.secrets['REPLICATE_API_TOKEN']
+if 'REPLICATE_API_TOKEN':
+    replicate_api = config('REPLICATE_API_TOKEN')
 else:
     # Se a chave não está nos segredos, define um valor padrão ou continua sem o token
     replicate_api = None
@@ -61,11 +62,6 @@ if replicate_api is None:
     # Se você quiser fazer algo específico quando não há token, você pode gerenciar isso aqui
     # Por exemplo, configurar uma lógica padrão ou deixar o aplicativo continuar sem mostrar nenhuma mensagem:
     st.warning('Um token de API é necessário para determinados recursos.', icon='⚠️')
-
-
-
-# Fazer uma requisição HTTP
-url_especialidade_A = "https://www.catalogo.med.br/medicos/acupunturistas/em-sp/"
 
 
 
@@ -211,7 +207,7 @@ with st.sidebar:
     )
     st.sidebar.markdown("---")
 
-    os.environ['REPLICATE_API_TOKEN'] = replicate_api
+    config('REPLICATE_API_TOKEN') = replicate_api
     st.subheader("Adjust model parameters")
     temperature = st.sidebar.slider('temperature', min_value=0.01, max_value=5.0, value=0.3, step=0.01)
     top_p = st.sidebar.slider('top_p', min_value=0.01, max_value=1.0, value=0.9, step=0.01)
