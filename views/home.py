@@ -2,63 +2,76 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 import requests
 import json
-
+from forms.contact import cadastrar_cliente  # Importando a função de cadastro
 
 async def showHome():
+    # Adicionando Font Awesome para ícones e a nova fonte
+    st.markdown(
+        """
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+        .title {
+            text-align: center;
+            font-size: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .highlight {
+            color: #6A0DAD; /* Lilás escuro */
+        }
+        .subheader {
+            text-align: center;
+            font-size: 30px;
+            font-family: 'Poppins', sans-serif;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    # --- HERO SECTION ---
-    col1, col2 = st.columns(2, gap="small", vertical_alignment="center")
-    with col1:
-        st.image("./src/img/perfil1.jpg", width=230)
+    # Título da página
+    st.markdown(
+        f"<h1 class='title'>Transforme Seu Corpo em 12 Semanas com <span class='highlight'>Coach Vitor</span></h1>",
+        unsafe_allow_html=True
+    )
 
-    with col2:
-        # Função para carregar animação Lottie
-        def load_lottie_animation(url):
-            try:
-                response = requests.get(url)
-                response.raise_for_status()  # Levanta um erro para códigos de status 4xx/5xx
-                return response.json()
-            except requests.exceptions.RequestException as e:
-                st.error(f"Erro ao carregar a animação: {e}")
-                return None  # Retorna None se ocorrer um erro
+    # Apresentação do Coach Vitor
+    st.write("Olá! Meu nome é Vitor, e sou um personal trainer dedicado a ajudar pessoas a alcançar uma transformação completa de corpo e mente. Com uma abordagem prática e estratégica, desenvolvi o programa “Transforme Seu Corpo em 12 Semanas” para proporcionar mudanças reais e duradouras na sua saúde e forma física.")
 
-        def load_lottie_local(filepath):
-            with open(filepath) as f:
-                return json.load(f)
-        lottie_animation = load_lottie_local("src/animations/animation_home.json")
-        st_lottie(lottie_animation, speed=1, width=400, height=400, key="animation_home")
+    # Exibindo a imagem do Coach Vitor
+    st.image("./src/img/perfil-home.png", width=230)
 
-        st.title("CHEF MANTIQUEIRA!", anchor=False)
-        st.write(
-            "Tecnologia de alto nível para atendimento e venda de carne online."
-        )
-
-        if st.button("✉️FAZER LOGIN"):
-            pass
-
-    # --- EXPERIENCE & QUALIFICATIONS ---
-    st.write("\n")
-    st.subheader("Vantagens & Benefícios", anchor=False)
+    # --- O QUE VOCÊ RECEBERÁ COM O PROGRAMA ---
+    st.subheader("O Que Você Receberá com o Programa", anchor=False)
     st.write(
         """
-        * Atendimento Instantâneo: O agente de IA pode fornecer respostas imediatas a perguntas dos clientes, melhorando a experiência de compra.
-        * Recomendações Personalizadas: A IA pode analisar preferências dos clientes e sugerir produtos, aumentando as chances de vendas adicionais.
-        * Gestão de Pedidos Eficiente: O sistema pode automatizar o processo de recebimento e acompanhamento de pedidos, reduzindo erros e agilizando o atendimento.
-        * Análise de Feedback: O agente pode coletar e analisar feedback dos clientes, permitindo melhorias contínuas no serviço e nas ofertas.
-        * Promoções e Ofertas: A IA pode identificar oportunidades para promoções personalizadas, incentivando compras e fidelizando clientes.
+        * **Treinos Personalizados:** Cada treino é desenhado para se ajustar às suas metas e necessidades, garantindo que você maximize seus resultados e aprenda as técnicas corretas para cada exercício.
+        * **Ebooks Exclusivos:** Além de um ebook completo de nutrição, você terá acesso a uma série de ebooks cobrindo temas importantes de saúde, treino e mentalidade, ajudando você a obter o conhecimento necessário para sustentar suas conquistas a longo prazo.
+        * **Suporte Direto e Exclusivo:** Estarei ao seu lado em cada passo dessa jornada. Com o suporte direto, você terá orientação para tirar dúvidas, manter a motivação e aprender mais sobre cada etapa do processo.
+        * **Materiais Educativos:** Você terá acesso a conteúdos educativos sobre treinamento, nutrição e saúde, desenvolvidos para empoderar você com conhecimento e permitir que mantenha os resultados mesmo após o programa.
+        * **Bônus Exclusivos para Inscrições Imediatas:** Esta é uma oportunidade exclusiva, e as vagas são limitadas. Inscreva-se agora para garantir o acesso aos bônus que foram criados especialmente para você e que vão acelerar seus resultados. Não perca sua chance de fazer parte deste grupo seleto – as vagas são poucas e preenchidas rapidamente.
         """
     )
 
-    # --- SKILLS ---
+    # --- CHAMADA À AÇÃO ---
     st.write("\n")
-    st.subheader("ESCALA/CRESCIMENTO", anchor=False)
-    st.write(
-        """
-    1. Atendimento em Grande Escala: O agente de IA pode atender simultaneamente a múltiplos clientes, eliminando limitações de capacidade humana e permitindo que a empresa cresça sem a necessidade de aumentar proporcionalmente a equipe.
-    2. Redução de Custos Operacionais: Com a automação de tarefas repetitivas, as empresas podem reduzir custos com pessoal, permitindo alocar recursos para outras áreas essenciais do negócio.
-    3. Adaptação a Picos de Demanda: O sistema pode facilmente lidar com aumentos repentinos na demanda, como durante promoções ou datas comemorativas, garantindo que o atendimento ao cliente nunca seja comprometido.
-    4. Expansão Geográfica: Com a IA atuando em canais digitais, as empresas podem alcançar novos mercados e clientes sem a necessidade de presença física, facilitando a expansão.
-    5. Análise de Dados em Tempo Real: O agente de IA pode processar e analisar grandes volumes de dados sobre interações com clientes, permitindo que as empresas ajustem suas estratégias rapidamente para atender a novas demandas e tendências.
-        """
+    st.markdown(
+        f"<h2 class='subheader'>Pronto para transformar seu corpo e sua mente?</h2>",
+        unsafe_allow_html=True
     )
+    st.write("As vagas são limitadas. Vamos começar essa jornada juntos!")
+
+    # --- BOTÃO DE INSCRIÇÃO ---
+    if st.button("✉️ INSCREVA-SE AGORA"):
+        # Chama a função de cadastro que contém o modal
+        nome, whatsapp, endereco = cadastrar_cliente()  # Modifique a função para retornar os valores
+
+        # Verifica se os campos foram preenchidos
+        if nome and whatsapp and endereco:
+            # Se todos os campos estiverem preenchidos, exibe a mensagem de sucesso
+            st.success("Cadastro feito com sucesso!!!")
+        else:
+            # Se algum campo estiver vazio, exibe uma mensagem de erro
+            st.error("Por favor, preencha todos os campos antes de confirmar o cadastro.")
+
 
