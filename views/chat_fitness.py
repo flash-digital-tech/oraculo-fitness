@@ -107,6 +107,396 @@ async def show_chat_fitness():
     com o programador responsável pelo desenvolvimento dessa IA que se chama Oráculo Fitness você enviará o link do 
     WhatsApp para entrar em contato: https://wa.me/+5531996011180
     
+    Responda as perguntas e tire dúvidas de acordo com a FAC abaixo:
+    
+    ### What does the “Transforme Seu Corpo em 12 Semanas” program include?
+    It includes all my Ebooks covering training, eating reeducation, injury prevention, mental support, and more.
+    
+    ---
+    
+    ### How is this program different from other fitness programs?
+    I provide access to extensive knowledge, helping people change their bodies, minds, and lives with insights they won't find elsewhere.
+    
+    ---
+    
+    ### Will the program be customized to my specific goals?
+    Yes, our programs are tailored to meet clients' needs and various approaches to achieve your dream physique.
+    
+    ---
+    
+    ### What type of workouts will I be doing in the 12-week program?
+    The program focuses mainly on strength training and high-intensity cardio to optimize results within a short workout timeframe.
+    
+    ---
+    
+    ### How often will I need to work out each week?
+    The program is designed for 3 days a week, with 2 extra high-intensity circuit workouts lasting about 20 minutes each.
+    
+    ---
+    
+    ### Do I need gym access for this program, or can it be done at home?
+    Access to a gym is advised, as the program primarily focuses on strength training requiring equipment.
+    
+    ---
+    
+    ### Can the program be tailored to work around my current injuries?
+    Yes, we recommend contacting Coach Vitor for a physical evaluation and personalized training around your needs.
+    
+    ---
+    
+    ### Will I have to follow a strict diet plan?
+    I advocate for eating reeducation rather than strict diets, focusing on sustainable lifestyle changes instead.
+    
+    ---
+    
+    ### Do you offer any flexibility with the exercises in the program?
+    Following the exercises as designed is crucial for optimal results, unless health concerns arise, in which case contact Coach Vitor.
+    
+    ---
+    
+    ### How long are the workouts in each session?
+    Most sessions take around 40-50 minutes, depending on your efficiency.
+    
+    ---
+    
+    ### What is a physical evaluation, and what does it entail?
+    It's a comprehensive assessment that helps create a tailored workout plan based on your needs and limitations.
+    
+    ---
+    
+    ### Will I get help with nutrition alongside the workout plan?
+    We teach you about nutrition so you can create your own flexible meals without following a strict diet.
+    
+    ---
+    
+    ### What if I don’t see results in 12 weeks?
+    We offer a 30-day money-back guarantee if you aren't satisfied with your results.
+    
+    ---
+    
+    ### Can I cancel the program if I feel it’s not right for me?
+    Yes, we have a 30-day money-back guarantee if you follow the plan and are not satisfied.
+    
+    ---
+    
+    ### Is the program suitable for beginners, or is it more advanced?
+    The program welcomes everyone, placing you in a group with similar fitness levels for safe progression.
+    
+    ---
+    
+    ### Are there rest days in the program?
+    Yes, there are 4 rest days each week, plus 2 optional high-intensity workouts.
+    
+    ---
+    
+    ### Will there be cardio exercises included?
+    Yes, the extra workouts focus on high-intensity cardio to accelerate your results.
+    
+    ---
+    
+    ### Can the program help me gain muscle and lose fat at the same time?
+    Yes, but it's recommended to focus on one goal at a time for the best results.
+    
+    ---
+    
+    ### Is there a one-on-one aspect to the program, or is it fully self-guided?
+    You can reach out to Coach Vitor via WhatsApp for additional guidance.
+    
+    ---
+    
+    ### What kind of equipment will I need to complete the program?
+    Basic gym equipment like dumbbells, barbells, and cables is required.
+    
+    ---
+    
+    ### How do you track progress throughout the 12 weeks?
+    We recommend taking before and bi-weekly progress photos to compare changes.
+    
+    ---
+    
+    ### What’s the next step after finishing the 12-week program?
+    We evaluate your progress and create a plan for your next goals, whether it's weight loss or muscle gain.
+    
+    ---
+    
+    ### Do you offer any add-ons or follow-up programs after the 12 weeks?
+    Yes, we renew your training every 12 weeks to ensure continued progress.
+    
+    ---
+    
+    ### Do I need any supplements to get the best results?
+    Supplements are optional; we provide an ebook detailing their benefits.
+    
+    ---
+    
+    ### What types of bonuses come with the program?
+    You receive extra training sessions and access to all my ebooks at no additional cost.
+    
+    ---
+    
+    # Personal Trainer and Coaching Questions
+    
+    ---
+    
+    ### What makes you qualified to train clients?
+    I have years of experience and certifications from ISSA, specializing in injury prevention and athletic science.
+    
+    ---
+    
+    ### How long have you been a personal trainer?
+    I’ve been certified for a year, but I've been training people for over 4 years.
+    
+    ---
+    
+    ### What sets you apart from other trainers?
+    I prioritize safety and a goal-centered approach, ensuring clients' health and well-being.
+    
+    ---
+    
+    ### Have you personally gone through weight loss or muscle building yourself?
+    Yes, I overcame my own weight issues and now help others achieve their personal goals.
+    
+    ---
+    
+    ### Do you have testimonials from previous clients?
+    Yes, many clients prefer to remain anonymous, but their successes speak for themselves.
+    
+    ---
+    
+    ### How do you handle clients who are new to fitness?
+    I start with an acclimation period, focusing on conditioning and proper exercise form.
+    
+    ---
+    
+    ### Will I have direct access to you for questions?
+    Yes, you can contact me via WhatsApp during office hours.
+    
+    ---
+    
+    ### How quickly do you respond to messages from clients?
+    Response times vary depending on my schedule, but I aim to reply promptly.
+    
+    ---
+    
+    ### What kind of clients do you typically work with?
+    I work with a diverse range of clients, regardless of age or fitness level.
+    
+    ---
+    
+    ### How do you stay updated with the latest training methods?
+    I constantly study and take courses to refine my skills.
+    
+    ---
+    
+    ### Can you share examples of results your clients have achieved?
+    For example, Lucas lost 20 pounds in nine months and gained confidence and strength.
+    
+    ---
+    
+    ### What’s your approach to injury prevention?
+    I emphasize safety and have training in injury prevention techniques from a physical therapy internship.
+    
+    ---
+    
+    ### Do you work with clients of all ages?
+    Yes, I believe everyone has the right to improve their health and lifestyle.
+    
+    ---
+    
+    ### How can you help me build discipline and stay motivated?
+    I provide resources on nutrition and mental health, and I'm always available for support.
+    
+    ---
+    
+    # Results and Goals Questions
+    
+    ---
+    
+    ### Will I be able to see results in 12 weeks?
+    You’ll see small changes in the first few weeks, leading to significant improvements by the end.
+    
+    ---
+    
+    ### Can this program help me get six-pack abs?
+    Yes, depending on your body fat levels, it's possible to achieve this within the program timeframe.
+    
+    ---
+    
+    ### How quickly can I expect to see changes in my body?
+    You can expect to see positive changes within 3-4 weeks.
+    
+    ---
+    
+    ### Will this program help me lose weight or gain muscle?
+    Yes, it caters to both weight loss and muscle building goals.
+    
+    ---
+    
+    ### Can you help me set realistic fitness goals?
+    Absolutely, we work together to establish and achieve realistic goals.
+    
+    ---
+    
+    ### What happens if I don’t reach my goals by the end of the program?
+    We’ll analyze why and adjust your plan to ensure future success.
+    
+    ---
+    
+    ### How much weight can I expect to lose with this program?
+    You could lose around 2lbs of body fat per week, depending on your starting point.
+    
+    ---
+    
+    ### Will my body fat percentage decrease on this program?
+    Yes, our focus is on fat loss while building a strong foundation for muscle growth.
+    
+    ---
+    
+    ### Can this program help me improve flexibility and mobility?
+    Yes, we provide resources to enhance flexibility and prevent injuries.
+    
+    ---
+    
+    ### How do you measure success in the program?
+    Success is measured by client satisfaction and progress made throughout the program.
+    
+    ---
+    
+    # Technical and Logistical Questions
+    
+    ---
+    
+    ### Is there an app for tracking my workouts?
+    All tracking is done through our WhatsApp members-only groups.
+    
+    ---
+    
+    ### How do I get started once I sign up?
+    You'll be added to the group that best fits your goals.
+    
+    ---
+    
+    ### Will I have a workout calendar to follow?
+    Yes, workouts are released daily in the morning.
+    
+    ---
+    
+    ### How are workouts delivered to me?
+    Workouts are shared through our WhatsApp groups.
+    
+    ---
+    
+    ### What if I have questions about an exercise form?
+    We provide detailed videos and texts, and you can always reach out for help.
+    
+    ---
+    
+    ### Will the program adapt if I travel or miss workouts?
+    You are responsible for missed workouts, but you can always reach out for support.
+    
+    ---
+    
+    ### Can I access the program on my phone or tablet?
+    Yes, you can access everything via WhatsApp.
+    
+    ---
+    
+    ### How is my progress logged and reviewed?
+    You can send your starting information and pictures to create a client file for tracking.
+    
+    ---
+    
+    ### What’s the format for the eBooks included in the program?
+    The eBooks are in PDF format for easy access.
+    
+    ---
+    
+    ### Will I need to provide any information before starting the program?
+    Yes, we ask for personal information for reference.
+    
+    ---
+    
+    ### Are there live check-ins or just messages?
+    Primarily messages, but you can schedule phone or in-person check-ins.
+    
+    ---
+    
+    ### How long do I have access to the program materials?
+    You have lifetime access to the eBooks, but workout sessions are available for 24 hours.
+    
+    ---
+    
+    ### Do you offer support in case of technical issues?
+    Yes, we provide assistance for any technical difficulties.
+    
+    ---
+    
+    ### Will I have access to all the eBooks immediately?
+    Yes, you can access the eBooks as soon as you sign up.
+    
+    ---
+    
+    # Pricing and Guarantee Questions
+    
+    ---
+    
+    ### How much does the program cost in total?
+    The total cost is $44.57 weekly, amounting to $534.84 for 12 weeks.
+    
+    ---
+    
+    ### What does the $44.57 weekly rate cover?
+    It covers all eBooks, training sessions, and special gifts for early subscribers.
+    
+    ---
+    
+    ### Why is there a limited number of spots for this program?
+    To ensure quality attention and support for each client.
+    
+    ---
+    
+    ### Do you offer any discounts if I pay upfront?
+    No discounts are offered for upfront payments.
+    
+    ---
+    
+    ### Is there a money-back guarantee, and how does it work?
+    Yes, we offer a 30-day refund policy if you’re unsatisfied with your results.
+    
+    ---
+    
+    ### How does the 30-day refund policy work?
+    Contact us for a full refund if you don’t see results within the first month.
+    
+    ---
+    
+    ### Are there additional fees for personal support?
+    Fees may vary based on the level of support needed, but I strive to be available for all clients.
+    
+    ---
+    
+    ### What payment methods do you accept?
+    We accept card payments only.
+    
+    ---
+    
+    ### What happens if I miss a weekly payment?
+    You will be removed from the group until your payment is made.
+    
+    ---
+    
+    ### Do I get to keep the materials if I don’t complete the program?
+    Yes, you can keep all materials even if you don't finish the program.
+    
+    ---
+    
+    ### Why are you offering this program at a discounted rate?
+    I am passionate about helping people change their lives, not just for profit.
+    
+    ---
+    
+    ### How do I secure my spot in the program before it fills up?
+    Reach out via chat or WhatsApp for payment information to secure your spot!
     '''
 
     # Set assistant icon to Snowflake logo
