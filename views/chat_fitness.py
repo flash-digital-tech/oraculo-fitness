@@ -81,7 +81,31 @@ def enviar_email(destinatario, assunto, corpo):
 
 #######################################################################################################################
 
-async def show_chat_fitness():
+async def show_chat_fitness():    
+    is_in_registration = False
+    is_in_scheduling = False
+
+
+    # Função para verificar se a pergunta está relacionada a cadastro
+    def is_health_question(prompt):
+        keywords = ["cadastrar", "inscrição", "quero me cadastrar", "gostaria de me registrar",
+                    "desejo me cadastrar", "quero fazer o cadastro", "quero me registrar", "quero me increver",
+                    "desejo me registrar", "desejo me inscrever","eu quero me cadastrar", "eu desejo me cadastrar",
+                    "eu desejo me registrar", "eu desejo me inscrever", "eu quero me registrar", "eu desejo me registrar",
+                    "eu quero me inscrever"]
+        return any(keyword.lower() in prompt.lower() for keyword in keywords)
+
+    #Função que analisa desejo de agendar uma reunião
+    def is_schedule_meeting_question(prompt):
+        keywords = [
+            "agendar reunião", "quero agendar uma reunião", "gostaria de agendar uma reunião",
+            "desejo agendar uma reunião", "quero marcar uma reunião", "gostaria de marcar uma reunião",
+            "desejo marcar uma reunião", "posso agendar uma reunião", "posso marcar uma reunião",
+            "Eu gostaria de agendar uma reuniao", "eu quero agendar", "eu quero agendar uma reunião,",
+            "quero reunião"
+        ]
+        return any(keyword.lower() in prompt.lower() for keyword in keywords)
+        
     system_prompt = f'''
     Você é o Coach Fitness. Você é um doutor em Educação física , nutrólogo e nutricionista, sua missão é conquistar 
     alunos e cadastrálos para seu projeto de 'TREINO SEMANAL' que custa somente $44,57 por semana. Primeiro você 
@@ -630,7 +654,12 @@ async def show_chat_fitness():
                 @st.dialog("DADOS PARA PEDIDO")
                 def show_contact_form():
                     cadastro
+        if is_health_question(prompt_str):
+            cadastrar_cliente()
 
+
+        if is_schedule_meeting_question(prompt_str):
+            agendar_reuniao()
 
         for event in replicate.stream(
                 "meta/meta-llama-3-70b-instruct",
