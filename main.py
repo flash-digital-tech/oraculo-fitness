@@ -15,8 +15,16 @@ import base64
 
 
 # --- LOAD CONFIGURATION ---
-with open("config.yaml") as file:
-    config = yaml.safe_load(file)
+try:
+    with open("config.yaml") as file:
+        config = yaml.safe_load(file)
+except FileNotFoundError:
+    st.error("Arquivo de configuração não encontrado.")
+    st.stop()
+except yaml.YAMLError as e:
+    st.error(f"Erro ao carregar o arquivo de configuração: {e}")
+    st.stop()
+
 
 # --- AUTHENTICATION SETUP ---
 credentials = {
@@ -24,6 +32,14 @@ credentials = {
         'name': user['name'],
         'password': user['password'],
         'email': user['email'],
+        'role': user['role'],
+        'whatsapp': user.get('whatsapp', ''),
+        'endereco': user.get('endereco', ''),
+        'cep': user.get('cep', ''),
+        'bairro': user.get('bairro', ''),
+        'cidade': user.get('cidade', ''),
+        'cpf_cnpj': user.get('cpf_cnpj', ''),
+        'created_at': user.get('created_at', '')
     } for user in config['credentials']['users']}
 }
 
@@ -33,6 +49,7 @@ authenticator = Authenticate(
     key=config['cookie']['key'],
     cookie_expiry_days=config['cookie']['expiry_days']
 )
+
 
 # --- PAGE SETUP ---
 authenticator.login()
