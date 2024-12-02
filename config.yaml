@@ -1,23 +1,19 @@
 
+cookie:
+  expiry_days: 30
+  key: my_signature_key
+  name: my_cookie_name
 credentials:
   users:
-    - username: "vitor"
-      name: "Vitor Mendes"
-      email: "vitor@gmail.com"
-      password: "hashed_password_parceiro"  # Use um hash seguro
-      role: "parceiro"
-    - username: "cliente-teste"
-      name: "Nome do Cliente"
-      email: "cliente@gmail.com"
-      password: "hashed_password_cliente"  # Use um hash seguro
-      role: "cliente"
-    - username: "duda"
-      name: "William Eustaquio"
-      email: "william@gmail.com"
-      password: "hashed_password_admin"  # Use um hash seguro
-      role: "admin"
-
-cookie:
-  name: "my_cookie_name"
-  key: "my_signature_key"
-  expiry_days: 30
+  - bairro: Eldorado
+    cep: '32315020'
+    cidade: Contagem
+    cpf_cnpj: 05940359612
+    created_at: '2024-01-17T00:00:00'
+    email: william@gmail.com
+    endereco: Rua Jose Barra do Nascimento
+    name: William Eustaquio
+    password: oraculosia
+    role: admin
+    username: william
+    whatsapp: '31996011180'
