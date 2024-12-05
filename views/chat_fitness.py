@@ -522,11 +522,7 @@ async def show_chat_fitness():
     ### How do I secure my spot in the program before it fills up?
     Reach out via chat or WhatsApp for payment information to secure your spot!
     '''
-
-    # Set assistant icon to Snowflake logo
-    icons = {"assistant": "./src/img/perfil.jpg", "user": "./src/img/usuario.jpeg"}
-
-
+    
     # Replicate Credentials
     with st.sidebar:
         st.markdown(
@@ -597,9 +593,24 @@ async def show_chat_fitness():
             'Sou formado em Educação Física e a minha missão é proporcionar a você uma experiência completa e transformadora, unindo o melhor das ciências do '
             'exercício e da nutrição para alcançar resultados rápidos e duradouros.'}]
 
-    # Display or clear chat messages
+    # Dicionário de ícones
+    icons = {
+        "assistant": "./src/img/perfil1.jpg",  # Ícone padrão do assistente
+        "user": "./src/img/usuario.jpeg"            # Ícone padrão do usuário
+    }
+    
+    # Caminho para a imagem padrão
+    default_avatar_path = "./src/img/usuario.jpg"
+    
+    # Exibição das mensagens
     for message in st.session_state.messages:
-        with st.chat_message(message["role"], avatar=icons[message["role"]]):
+        if message["role"] == "user":
+            # Verifica se a imagem do usuário existe
+            avatar_image = st.session_state.image if "image" in st.session_state and st.session_state.image else default_avatar_path
+        else:
+            avatar_image = icons["assistant"]  # Ícone padrão do assistente
+    
+        with st.chat_message(message["role"], avatar=avatar_image):
             st.write(message["content"])
 
 
@@ -611,10 +622,7 @@ async def show_chat_fitness():
 
 
     st.sidebar.button('LIMPAR CONVERSA', on_click=clear_chat_history)
-    st.sidebar.caption(
-        'Built by [Snowflake](https://snowflake.com/) to demonstrate [Snowflake Arctic](https://www.snowflake.com/blog/arctic-open-and-efficient-foundation-language-models-snowflake). App hosted on [Streamlit Community Cloud](https://streamlit.io/cloud). Model hosted by [Replicate](https://replicate.com/snowflake/snowflake-arctic-instruct).')
-    st.sidebar.caption(
-        'Build your own app powered by Arctic and [enter to win](https://arctic-streamlit-hackathon.devpost.com/) $10k in prizes.')
+
 
     st.sidebar.markdown("Desenvolvido por [WILLIAM EUSTÁQUIO](https://www.instagram.com/flashdigital.tech/)")
 
@@ -677,16 +685,26 @@ async def show_chat_fitness():
             yield str(event)
 
 
+    def get_avatar_image():
+        """Retorna a imagem do usuário ou a imagem padrão se não houver imagem cadastrada."""
+        if st.session_state.image is not None:
+            return st.session_state.image  # Retorna a imagem cadastrada
+        else:
+            return default_avatar_path  # Retorna a imagem padrão
+    
     # User-provided prompt
     if prompt := st.chat_input(disabled=not replicate_api):
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user", avatar="./src/img/usuario.jpeg"):
+        
+        # Chama a função para obter a imagem correta
+        avatar_image = get_avatar_image()
+        
+        with st.chat_message("user", avatar=avatar_image):
             st.write(prompt)
-
-
+    
     # Generate a new response if last message is not from assistant
     if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant", avatar="./src/img/perfil.jpg"):
+        with st.chat_message("assistant", avatar="./src/img/perfi1.jpg"):
             response = generate_arctic_response()
             full_response = st.write_stream(response)
         message = {"role": "assistant", "content": full_response}
