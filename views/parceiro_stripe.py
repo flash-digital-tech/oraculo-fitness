@@ -1,7 +1,7 @@
 import asyncio
 import streamlit as st
 from fastapi import FastAPI, HTTPException
-from pydantic import EmailStr, BaseModel
+from pydantic import BaseModel
 import pandas as pd
 import httpx
 from key_config import API_KEY_STRIPE, URL_BASE
@@ -11,7 +11,7 @@ app = FastAPI()
 # Modelo de Parceiro
 class ParceiroCreate(BaseModel):
     nome: str
-    email: EmailStr
+    email: str
     telefone: str
 
 class ParceiroResponse(BaseModel):
