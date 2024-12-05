@@ -44,7 +44,7 @@ if replicate_api is None:
     # Por exemplo, configurar uma lógica padrão ou deixar o aplicativo continuar sem mostrar nenhuma mensagem:
     st.warning('Um token de API é necessário para determinados recursos.', icon='⚠️')
 
-def showChatDemo()
+def showChatDemo():
 
     is_in_registration = False
     is_in_scheduling = False
