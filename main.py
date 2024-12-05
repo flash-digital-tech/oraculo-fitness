@@ -4,6 +4,7 @@ import yaml
 import asyncio
 from views.home import showHome
 from views.chat_fitness import show_chat_fitness
+from views.chat_fitness_demo import showChatDemo
 from views.financeiro import show_financeiro
 from views.cliente_criar import show_create_customer
 from views.link_pagamento import show_pagamento_links
@@ -115,17 +116,18 @@ if 'authentication_status' in st.session_state and st.session_state['authenticat
         st.stop()
 
     permissao_usuario = {
-        "admin": ["Home", "Fazer Pedido", "Chat Fitness", "Criar Cliente","Criar Parceiro", "Financeiro", "Link de Pagamento", \
+        "admin": ["Apresentação", "VITOR COACH", "Chat Demo", "Criar Cliente","Criar Parceiro", "Financeiro", "Link de Pagamento", \
                   "Webhook","Assinaturas","Split de Pagamentos",],
-        "parceiro": ["Home", "Fazer Pedido", "Chat Fitness", "Criar Cliente","Assinaturas", "Link de Pagamento"],
-        "cliente": ["Home", "Chat Fitness"],
+        "parceiro": ["Apresentação", "VITOR COACH", "Chat Demo",, "Criar Cliente","Assinaturas", "Link de Pagamento"],
+        "cliente": ["Chat Demo", "Apresentação"],
     }
 
     paginas_permitidas = permissao_usuario.get(user_role, [])
 
     pages = {
-        "Home": showHome,
-        "Chat Fitness": show_chat_fitness,
+        "Apresentação": showHome,
+        "VITOR COACH": show_chat_fitness,
+        "Chat Demo": showChatDemo,
         "Criar Cliente": show_create_customer,
         "Criar Parceiro": showSubconta,
         "Assinaturas": show_assinaturas,
