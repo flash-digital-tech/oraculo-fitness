@@ -57,33 +57,48 @@ async def api_create_parceiro(parceiro: ParceiroCreate):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-async def fetch_parceiros(limit: int = 100, offset: int = 0):
-    url = f"{URL_BASE}/accounts"
-    headers = {
-        "Authorization": f"Bearer {API_KEY_STRIPE}",
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-
+async def fetch_parceiros(offset: int = 0, limit: int = 100):
     try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, headers=headers, params={"limit": limit, "starting_after": offset})
-            response.raise_for_status()
-            parceiros = response.json().get('data', [])
-            return [
-                {
-                    "id": account['id'],
-                    "nome": account.get('business_profile', {}).get('name', 'Nome não disponível'),
-                    "email": account.get('email', 'Email não disponível'),
-                    "telefone": account.get('metadata', {}).get('telefone', 'Telefone não disponível')
-                }
-                for account in parceiros
-            ]
+        # Buscando a lista de parceiros com limite e starting_after
+        parceiros = stripe.Account.list(limit=limit, starting_after=None)  # Ajustado para refletir a API correta
+
+        # Verifica se os dados de parceiros estão disponíveis
+        if not parceiros['data']:
+            raise HTTPException(status_code=404, detail="Nenhum parceiro encontrado.")
+
+        return [
+            ParceiroResponse(
+                id=parceiro['id'],
+                nome=parceiro.get('business_profile', {}).get('name', 'Nome não disponível'),
+                email=parceiro.get('email', 'Email não disponível'),
+                telefone=parceiro.get('metadata', {}).get('telefone', ''),  # Incluindo telefone
+            ) for parceiro in parceiros['data']
+        ]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/parceiros", response_model=list[ParceiroResponse])
-async def api_fetch_parceiros(limit: int = 100, offset: str = None):
-    return await fetch_parceiros(limit=limit, offset=offset)
+async def api_fetch_parceiros(offset: int = 0, limit: int = 100):
+    return await fetch_parceiros(offset, limit)
+
+async def handle_fetch_parceiros(offset, limit):
+    try:
+        parceiros = await fetch_parceiros(offset=offset, limit=limit)
+        if parceiros:
+            data = []
+            for parceiro in parceiros:
+                data.append({
+                    'ID': parceiro.id,
+                    'Nome': parceiro.nome,
+                    'E-mail': parceiro.email,
+                    'Telefone': parceiro.telefone,  # Incluindo o telefone na exibição
+                })
+            df = pd.DataFrame(data)
+            st.dataframe(df)  # Exibe a tabela de parceiros no Streamlit
+        else:
+            st.warning("Nenhum parceiro encontrado.")
+    except Exception as e:
+        st.error(f"Erro ao carregar parceiros: {e}")
 
 
 # Streamlit Interface
@@ -124,24 +139,26 @@ def showParceiroStripe():
             except Exception as e:
                 st.error(f"Erro ao criar parceiro: {e}")
 
-    st.header("Parceiros da ORÁCULOS IA")
-    limit = st.number_input("Limite", min_value=1, max_value=100, value=10)
+    # Seção para listar parceiros
+st.header("Listar Parceiros")
+offset = st.number_input("Offset", min_value=0, value=0)
+limit = st.number_input("Limite", min_value=1, max_value=100, value=10)
 
-    if st.button("Listar"):
-        try:
-            parceiros = asyncio.create_task(api_fetch_parceiros(limit=limit))
-            if parceiros:
-                data = []
-                for parceiro in parceiros:
-                    data.append({
-                        'ID': parceiro['id'],
-                        'Nome': parceiro['nome'],
-                        'E-mail': parceiro['email'],
-                        'Telefone': parceiro['telefone'],
-                    })
-                df = pd.DataFrame(data)
-                st.dataframe(df)
-            else:
-                st.warning("Nenhum parceiro encontrado.")
-        except Exception as e:
-            st.error(f"Erro ao carregar parceiros: {e}")
+if st.button("Carregar Lista de Parceiros"):
+    try:
+        parceiros = asyncio.create_task(fetch_parceiros(offset=offset, limit=limit))  # Chamada da função
+        if parceiros:
+            data = []
+            for parceiro in parceiros:
+                data.append({
+                    'ID': parceiro.id,
+                    'Nome': parceiro.nome,
+                    'E-mail': parceiro.email,
+                    'Telefone': parceiro.telefone,  # Incluindo telefone
+                })
+            df = pd.DataFrame(data)
+            st.dataframe(df)  # Exibe a tabela de parceiros no Streamlit
+        else:
+            st.warning("Nenhum parceiro encontrado.")
+    except Exception as e:
+        st.error(f"Erro ao carregar parceiros: {e}")
