@@ -574,7 +574,7 @@ def show_chat_fitness():
     st.sidebar.markdown("---")
 
     # Load and display sidebar image with glowing effect
-    img_path = "./src/img/perfil-home.png
+    img_path = "./src/img/perfil-home.png"
     img_base64 = img_to_base64(img_path)
     st.sidebar.markdown(
         f'<img src="data:image/png;base64,{img_base64}" class="cover-glow">',
