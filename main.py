@@ -118,7 +118,7 @@ if 'authentication_status' in st.session_state and st.session_state['authenticat
     permissao_usuario = {
         "admin": ["Apresentação", "VITOR COACH", "Chat Demo", "Criar Cliente","Criar Parceiro", "Financeiro", "Link de Pagamento", \
                   "Webhook","Assinaturas","Split de Pagamentos",],
-        "parceiro": ["Apresentação", "VITOR COACH", "Chat Demo",, "Criar Cliente","Assinaturas", "Link de Pagamento"],
+        "parceiro": ["Apresentação", "VITOR COACH", "Chat Demo","Criar Cliente","Assinaturas", "Link de Pagamento"],
         "cliente": ["Chat Demo", "Apresentação"],
     }
 
