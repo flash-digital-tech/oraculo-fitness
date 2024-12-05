@@ -537,7 +537,7 @@ def showChatDemo():
     
     
         # Load and display sidebar image with glowing effect
-        img_path = "./src/img/doutor-chat.jpg"
+        img_path = "./src/img/perfil-home.png"
         img_base64 = img_to_base64(img_path)
         st.sidebar.markdown(
             f'<img src="data:image/png;base64,{img_base64}" class="cover-glow">',
@@ -552,7 +552,7 @@ def showChatDemo():
     
         st.sidebar.markdown("---")
         # Load image and convert to base64
-        img_path = "./src/img/modelo-logo4.jpeg"  # Replace with the actual image path
+        img_path = "./src/img/logo1.jpg"  # Replace with the actual image path
         img_base64 = img_to_base64(img_path)
     
         # Display image with custom CSS class for glowing effect
