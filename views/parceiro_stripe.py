@@ -114,7 +114,7 @@ def showParceiroStripe():
             )
             try:
 
-                resultado = asyncio.create_task(api_create_parceiro(parceiro)_)
+                resultado = asyncio.create_task(api_create_parceiro(parceiro))
                 st.success(f"Parceiro {resultado.nome} criado com sucesso!")
 
                 st.session_state.nome = ""
