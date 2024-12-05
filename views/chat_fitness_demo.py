@@ -9,7 +9,7 @@ from fastapi import FastAPI
 import stripe
 import os
 import glob
-from forms.contact import cadastrar_cliente, agendar_reuniao
+from forms.contact import cadastrar_cliente
 
 
 import replicate
