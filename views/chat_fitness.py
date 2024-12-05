@@ -1,17 +1,26 @@
+import asyncio
+
 import streamlit as st
-import os
 from transformers import AutoTokenizer
 import base64
-from forms.contact import cadastrar_cliente
+import pandas as pd
+import io
+from fastapi import FastAPI
+import stripe
+from util import carregar_arquivos
+import os
+import glob
+from forms.contact import cadastrar_cliente, agendar_reuniao 
+
 import replicate
 from langchain.llms import Replicate
-from fastapi import FastAPI, HTTPException
 
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from autentic.authentications import setup_authentication
+from key_config import API_KEY_STRIPE, URL_BASE
 from decouple import config
+
+
+app = FastAPI()
+
 
 
 # --- Verifica se o token da API está nos segredos ---
@@ -28,60 +37,43 @@ if replicate_api is None:
     st.warning('Um token de API é necessário para determinados recursos.', icon='⚠️')
 
 
-
-
-################################################# ENVIO DE E-MAIL ####################################################
-############################################# PARA CONFIRMAÇÃO DE DADOS ##############################################
-
-# Função para enviar o e-mail
-def enviar_email(destinatario, assunto, corpo):
-    remetente = "mensagem@flashdigital.tech"  # Insira seu endereço de e-mail
-    senha = "sua_senha"  # Insira sua senha de e-mail
-
-    msg = MIMEMultipart()
-    msg['From'] = remetente
-    msg['To'] = destinatario
-    msg['Subject'] = assunto
-    msg.attach(MIMEText(corpo, 'plain'))
-
-    try:
-        server = smtplib.SMTP('mail.flashdigital.tech', 587)
-        server.starttls()
-        server.login(remetente, senha)
-        server.sendmail(remetente, destinatario, msg.as_string())
-        server.quit()
-        st.success("E-mail enviado com sucesso!")
-    except Exception as e:
-        st.error(f"Erro ao enviar e-mail: {e}")
-
-    # Enviando o e-mail ao pressionar o botão de confirmação
-    if st.button("DADOS CONFIRMADO"):
-        # Obter os dados salvos em st.session_state
-        nome = st.session_state.user_data["name"]
-        email = st.session_state.user_data["email"]
-        whatsapp = st.session_state.user_data["whatsapp"]
-        endereco = st.session_state.user_data["endereco"]
-
-        # Construindo o corpo do e-mail
-        corpo_email = f"""
-        Olá {nome},
-
-        Segue a confirmação dos dados:
-        - Nome: {nome}
-        - E-mail: {email}
-        - WhatsApp: {whatsapp}
-        - Endereço: {endereco}
-
-        Obrigado pela confirmação!
-        """
-
-        # Enviando o e-mail
-        enviar_email(email, "Confirmação de dados", corpo_email)
-
-
 #######################################################################################################################
 
-async def show_chat_fitness():    
+def show_chat_fitness():
+
+    if "image" not in st.session_state:
+        st.session_state.image = None
+    
+    def ler_arquivos_txt(pasta):
+        """
+        Lê todos os arquivos .txt na pasta especificada e retorna uma lista com o conteúdo de cada arquivo.
+
+        Args:
+            pasta (str): O caminho da pasta onde os arquivos .txt estão localizados.
+
+        Returns:
+            list: Uma lista contendo o conteúdo de cada arquivo .txt.
+        """
+        conteudos = []  # Lista para armazenar o conteúdo dos arquivos
+
+        # Cria o caminho para buscar arquivos .txt na pasta especificada
+        caminho_arquivos = os.path.join(pasta, '*.txt')
+
+        # Usa glob para encontrar todos os arquivos .txt na pasta
+        arquivos_txt = glob.glob(caminho_arquivos)
+
+        # Lê o conteúdo de cada arquivo .txt encontrado
+        for arquivo in arquivos_txt:
+            with open(arquivo, 'r', encoding='utf-8') as f:
+                conteudo = f.read()  # Lê o conteúdo do arquivo
+                conteudos.append(conteudo)  # Adiciona o conteúdo à lista
+
+        return conteudos  # Retorna a lista de conteúdos
+
+    # Exemplo de uso da função
+    pasta_conhecimento = './conhecimento'  # Caminho da pasta onde os arquivos .txt estão localizados
+    conteudos_txt = ler_arquivos_txt(pasta_conhecimento)
+
     is_in_registration = False
     is_in_scheduling = False
 
@@ -105,7 +97,8 @@ async def show_chat_fitness():
             "quero reunião"
         ]
         return any(keyword.lower() in prompt.lower() for keyword in keywords)
-        
+
+    # Atualizando o system_prompt
     system_prompt = f'''
     Você é o Coach Fitness. Você é um doutor em Educação física , nutrólogo e nutricionista, sua missão é conquistar 
     alunos e cadastrálos para seu projeto de 'TREINO SEMANAL' que custa somente $44,57 por semana. Primeiro você 
@@ -522,87 +515,94 @@ async def show_chat_fitness():
     ### How do I secure my spot in the program before it fills up?
     Reach out via chat or WhatsApp for payment information to secure your spot!
     '''
-    
-    # Replicate Credentials
-    with st.sidebar:
-        st.markdown(
-            """
-            <h1 style='text-align: center;'>COACH FITNESS</h1>
-            """,
-            unsafe_allow_html=True
-        )
 
-        st.markdown(
-            """
-            <style>
-            .cover-glow {
-                width: 100%;
-                height: auto;
-                padding: 3px;
-                box-shadow: 
-                    0 0 5px #330000,
-                    0 0 10px #660000,
-                    0 0 15px #990000,
-                    0 0 20px #CC0000,
-                    0 0 25px #FF0000,
-                    0 0 30px #FF3333,
-                    0 0 35px #FF6666;
-                position: relative;
-                z-index: -1;
-                border-radius: 30px;  /* Rounded corners */
-            }
-            </style>
-            """,
-            unsafe_allow_html=True,
-        )
+    st.markdown(
+        """
+        <style>
+        .highlight-creme {
+            background: linear-gradient(90deg, #f5f5dc, gold);  /* Gradiente do creme para dourado */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        .highlight-dourado {
+            background: linear-gradient(90deg, gold, #f5f5dc);  /* Gradiente do dourado para creme */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
+    # Título da página
+    st.markdown(
+        f"<h1 class='title'>Estude com o <span class='highlight-creme'>VITOR</span> <span class='highlight-dourado'>COACH</span></h1>",
+        unsafe_allow_html=True
+    )
 
-        # Function to convert image to base64
-        def img_to_base64(image_path):
-            with open(image_path, "rb") as img_file:
-                return base64.b64encode(img_file.read()).decode()
+    st.markdown(
+        """
+        <style>
+        .cover-glow {
+            width: 100%;
+            height: auto;
+            padding: 3px;
+            box-shadow: 
+                0 0 5px #330000,
+                0 0 10px #660000,
+                0 0 15px #990000,
+                0 0 20px #CC0000,
+                0 0 25px #FF0000,
+                0 0 30px #FF3333,
+                0 0 35px #FF6666;
+            position: relative;
+            z-index: -1;
+            border-radius: 30px;  /* Rounded corners */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
+    # Function to convert image to base64
+    def img_to_base64(image_path):
+        with open(image_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
 
-        # Load and display sidebar image with glowing effect
-        img_path = "./src/img/perfil.jpg"
-        img_base64 = img_to_base64(img_path)
-        st.sidebar.markdown(
-            f'<img src="data:image/png;base64,{img_base64}" class="cover-glow">',
-            unsafe_allow_html=True,
-        )
-        st.sidebar.markdown("---")
+    st.sidebar.markdown("---")
 
-        os.environ['REPLICATE_API_TOKEN'] = replicate_api
+    # Load and display sidebar image with glowing effect
+    img_path = "./src/img/perfil-home.png
+    img_base64 = img_to_base64(img_path)
+    st.sidebar.markdown(
+        f'<img src="data:image/png;base64,{img_base64}" class="cover-glow">',
+        unsafe_allow_html=True,
+    )
 
-        # Load image and convert to base64
-        img_path = "./src/img/perfil1.jpg"  # Replace with the actual image path
-        img_base64 = img_to_base64(img_path)
-
-        st.sidebar.markdown("---")
 
     # Inicializar o modelo da Replicate
     llm = Replicate(
-        model="meta/meta-llama-3-70b-instruct",
+        model="meta/meta-llama-3.1-405b-instruct",
         api_token=replicate_api
     )
 
     # Store LLM-generated responses
     if "messages" not in st.session_state.keys():
-        st.session_state.messages = [{"role": "assistant", "content":
-            'Meu nome é Vitor Coach, e é um grande prazer recebê-lo(a) em meu programa de treinamento. '
-            'Sou formado em Educação Física e a minha missão é proporcionar a você uma experiência completa e transformadora, unindo o melhor das ciências do '
-            'exercício e da nutrição para alcançar resultados rápidos e duradouros.'}]
+        st.session_state.messages = [{
+            "role": "assistant", "content": '🌟 Bem-vindo ao Vitor Coach! Seu coach profissional em treinamento físico.'}]
 
     # Dicionário de ícones
     icons = {
-        "assistant": "./src/img/perfil1.jpg",  # Ícone padrão do assistente
-        "user": "./src/img/usuario.jpeg"            # Ícone padrão do usuário
+        "assistant": "./src/img/perfil-home.png",  # Ícone padrão do assistente
+        "user": "./src/img/usuario.jpeg"           # Ícone padrão do usuário
     }
     
     # Caminho para a imagem padrão
-    default_avatar_path = "./src/img/usuario.jpg"
+    default_avatar_path = "./src/img/usuario.jpeg"
     
-    # Exibição das mensagens
+     # Exibição das mensagens
     for message in st.session_state.messages:
         if message["role"] == "user":
             # Verifica se a imagem do usuário existe
@@ -615,17 +615,13 @@ async def show_chat_fitness():
 
 
     def clear_chat_history():
-        st.session_state.messages = [{"role": "assistant", "content":
-            'Meu nome é Vitor Coach, e é um grande prazer recebê-lo(a) em meu programa de treinamento. '
-            'Sou formado em Educação Física e a minha missão é proporcionar a você uma experiência completa e transformadora, unindo o melhor das ciências do '
-            'exercício e da nutrição para alcançar resultados rápidos e duradouros.'}]
+        st.session_state.messages = [{
+            "role": "assistant", "content": '🌟 Bem-vindo ao Vitor Coach! Seu coach profissional em treinamento físico.'}]
 
 
-    st.sidebar.button('LIMPAR CONVERSA', on_click=clear_chat_history)
-
+    st.sidebar.button('LIMPAR CONVERSA', on_click=clear_chat_history, key='limpar_conversa')
 
     st.sidebar.markdown("Desenvolvido por [WILLIAM EUSTÁQUIO](https://www.instagram.com/flashdigital.tech/)")
-
 
     @st.cache_resource(show_spinner=False)
     def get_tokenizer():
@@ -641,13 +637,30 @@ async def show_chat_fitness():
         tokens = tokenizer.tokenize(prompt)
         return len(tokens)
 
+
+    def check_safety(disable=False) -> bool:
+        if disable:
+            return True
+
+        deployment = get_llamaguard_deployment()
+        conversation_history = st.session_state.messages
+        user_question = conversation_history[-1]  # pegar a última mensagem do usuário
+
+        prediction = deployment.predictions.create(
+            input=template)
+        prediction.wait()
+        output = prediction.output
+
+        if output is not None and "unsafe" in output:
+            return False
+        else:
+            return True
+
     # Function for generating Snowflake Arctic response
-
-
     def generate_arctic_response():
+
         prompt = []
         for dict_message in st.session_state.messages:
-
             if dict_message["role"] == "user":
                 prompt.append("<|im_start|>user\n" + dict_message["content"] + "<|im_end|>")
             else:
@@ -657,11 +670,6 @@ async def show_chat_fitness():
         prompt.append("")
         prompt_str = "\n".join(prompt)
 
-        if get_num_tokens(prompt_str) >= 3500:  # padrão3072
-            if cadastro in system_prompt:
-                @st.dialog("DADOS PARA PEDIDO")
-                def show_contact_form():
-                    cadastro
         if is_health_question(prompt_str):
             cadastrar_cliente()
 
@@ -670,7 +678,7 @@ async def show_chat_fitness():
             agendar_reuniao()
 
         for event in replicate.stream(
-                "meta/meta-llama-3-70b-instruct",
+                "meta/meta-llama-3.1-405b-instruct",
                 input={
                     "top_k": 0,
                     "top_p": 1,
@@ -678,8 +686,7 @@ async def show_chat_fitness():
                     "temperature": 0.1,
                     "system_prompt": system_prompt,
                     "length_penalty": 1,
-                    "max_new_tokens": 3500,
-
+                    "max_new_tokens": 8000,
                 },
         ):
             yield str(event)
@@ -695,20 +702,17 @@ async def show_chat_fitness():
     # User-provided prompt
     if prompt := st.chat_input(disabled=not replicate_api):
         st.session_state.messages.append({"role": "user", "content": prompt})
-        
+    
         # Chama a função para obter a imagem correta
         avatar_image = get_avatar_image()
-        
+    
         with st.chat_message("user", avatar=avatar_image):
             st.write(prompt)
     
     # Generate a new response if last message is not from assistant
-    if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant", avatar="./src/img/perfi1.jpg"):
+    if st.session_state.messages and st.session_state.messages[-1]["role"] != "assistant":
+        with st.chat_message("assistant", avatar="./src/img/perfil-home.png"):
             response = generate_arctic_response()
             full_response = st.write_stream(response)
         message = {"role": "assistant", "content": full_response}
         st.session_state.messages.append(message)
-
-
-
