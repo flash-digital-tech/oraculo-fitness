@@ -7,7 +7,6 @@ import pandas as pd
 import io
 from fastapi import FastAPI
 import stripe
-from util import carregar_arquivos
 import os
 import glob
 from forms.contact import cadastrar_cliente, agendar_reuniao
