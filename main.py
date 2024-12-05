@@ -11,6 +11,7 @@ from views.link_pagamento import show_pagamento_links
 from views.webhooks import show_webhooks
 from views.assinatura import show_assinaturas
 from views.criar_parceiro import showSubconta
+from views.parceiro_stripe import showParceiroStripe
 from views.split import show_split_pagamento
 import base64
 
@@ -116,7 +117,7 @@ if 'authentication_status' in st.session_state and st.session_state['authenticat
         st.stop()
 
     permissao_usuario = {
-        "admin": ["Apresentação", "VITOR COACH", "Chat Demo", "Criar Cliente","Criar Parceiro", "Financeiro", "Link de Pagamento", \
+        "admin": ["Apresentação", "VITOR COACH", "Chat Demo", "Criar Cliente","Criar Parceiro", "Parceiro Stripe", "Financeiro", "Link de Pagamento", \
                   "Webhook","Assinaturas","Split de Pagamentos",],
         "parceiro": ["Apresentação", "VITOR COACH", "Chat Demo","Criar Cliente","Assinaturas", "Link de Pagamento"],
         "cliente": ["Chat Demo", "Apresentação"],
@@ -130,6 +131,7 @@ if 'authentication_status' in st.session_state and st.session_state['authenticat
         "Chat Demo": showChatDemo,
         "Criar Cliente": show_create_customer,
         "Criar Parceiro": showSubconta,
+        "Parceiro Stripe": showParceiroStripe,
         "Assinaturas": show_assinaturas,
         "Financeiro": show_financeiro,
         "Split de Pagamentos": show_split_pagamento,
